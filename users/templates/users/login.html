@@ -1,11 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
-<br/> 
-{% if error %}
-{{error}}
-<br/>
-{% endif %}
+<div class="card shadow-lg p-3 mb-5 bg-white rounded mx-auto" style="margin-top: 150px!important; padding: 5px; width:50%">
+
+
 <h1>Log in</h1>
+
+{% if error %}
+<br/>
+<div class="alert alert-danger" role="alert">
+  {{error}}
+</div>
+
+{% endif %}
 
 <form method='POST' action='{% url 'login' %}'>
 {% csrf_token %}
@@ -17,7 +23,8 @@
     <label for="InputPassword1">Password</label>
     <input type="password" class="form-control form-control-sm" id="InputPassword1" placeholder="Password" name='InputPassword1'>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-warning">Submit</button>
 </form>
+</div>
 
 {% endblock  %}

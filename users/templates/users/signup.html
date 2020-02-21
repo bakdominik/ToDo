@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="card shadow-lg p-3 mb-5 bg-white rounded mx-auto" style="margin-top: 150px!important; padding: 5px; width:50%">
+
+<h1>Create new account</h1>
 
 {% if error %}
-{{error}}
 <br/>
-<br/>
+<div class="alert alert-danger" role="alert">
+  {{error}}
+</div>
+
 {% endif %}
-<h1>Create new account</h1>
 
 <form method='POST' action='{% url 'signup' %}'>
 {% csrf_token %}
@@ -22,7 +26,7 @@
     <label for="InputPassword2">Confirm Password</label>
     <input type="password" class="form-control form-control-sm" id="InputPassword2" placeholder="Password" name='InputPassword2'>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-warning">Submit</button>
 </form>
-
+</div>
 {% endblock  %}
