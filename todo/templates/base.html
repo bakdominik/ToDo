@@ -11,11 +11,8 @@
 </head>
 <body>
     <div class="container">
-        <nav class="navbar navbar-expand-sm navbar-dark bg-transparent">
-        <a class="navbar-brand mt-0" href="">To-Do</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <nav class="navbar navbar-dark bg-transparent">
+        <a class="navbar-brand mt-0" style="color: #df7861;">Simply do it</a>
         <div class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
                 <form action="{% url 'logout' %}" method="POST">
@@ -23,7 +20,7 @@
                     <input class="btn btn-outline-primary my-2" type="submit" value="Logout">
                 </form>
             {% else %}
-                <a class="btn btn-outline-primary ml-lg-5 my-2 mr-sm-2" type="submit" href="{% url 'login' %}">Login</a>
+                <a id="loginbtn" class="btn btn-outline-primary ml-lg-5 my-2 mr-sm-2" type="submit" href="{% url 'login' %}">Login</a>
                 <a class="btn btn-outline-primary my-2 mr-sm-2" type="submit" href="{% url 'signup' %}">Sign-up</a>
             {% endif %}
         </div>
