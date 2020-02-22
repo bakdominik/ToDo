@@ -3,11 +3,13 @@ from django.contrib.auth.decorators import login_required
 from .models import Task
 from django.views.generic.list import ListView
 from datetime import date
-def home(requests):
-    if requests.user != None:
+from django.contrib.auth.models import User
+
+def home(request):
+    if request.user.is_authenticated == True:
         return redirect('tasks')
     else:
-        return render(requests, 'todoapp/home.html')
+        return render(request, 'todoapp/home.html')
 
 @login_required()
 def tasks(request):
