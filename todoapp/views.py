@@ -4,7 +4,7 @@ from .models import Task
 from django.views.generic.list import ListView
 from datetime import date
 def home(requests):
-    if requests.user == None:
+    if requests.user != None:
         return redirect('tasks')
     else:
         return render(requests, 'todoapp/home.html')
