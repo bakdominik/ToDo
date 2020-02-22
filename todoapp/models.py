@@ -4,7 +4,7 @@ import datetime
 
 class Task(models.Model):
     title = models.CharField(max_length=255)
-    date = models.DateTimeField(default=datetime.date.today())
+    date = models.DateTimeField()
     is_done = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
