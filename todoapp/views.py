@@ -4,6 +4,8 @@ from .models import Task
 from django.views.generic.list import ListView
 from datetime import date
 def home(requests):
+    if requests.user:
+        return redirect('tasks')
     return render(requests, 'todoapp/home.html')
 
 @login_required()
