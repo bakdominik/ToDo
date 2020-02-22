@@ -6,7 +6,8 @@ from datetime import date
 def home(requests):
     if requests.user:
         return redirect('tasks')
-    return render(requests, 'todoapp/home.html')
+    else:
+        return render(requests, 'todoapp/home.html')
 
 @login_required()
 def tasks(request):
