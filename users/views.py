@@ -12,7 +12,7 @@ def signup(request):
             except User.DoesNotExist:
                 user = User.objects.create_user(request.POST['username'], password=request.POST['InputPassword1'])
                 auth.login(request,user)
-                return redirect('home')
+                return redirect('tasks')
         else:
             return render(request, 'users/signup.html',{'error':'Passwords doesn\'t match'})
     else:
