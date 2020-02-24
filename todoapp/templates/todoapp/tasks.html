@@ -7,21 +7,26 @@
     
     <h2 class="mb-4" style="color: #df7861">Today</h2>  
         {% for task in tasks %}
-        
-            <div class="input-group mb-1">
+            <form id='{{ task.id }}' method='POST' action="{% url 'mark_as_done'%}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div>
+                    <input type="hidden" value="{{task.id}}" name = "id_checked">
+                </div>
+            </form>
+            
+            <form class="input-group" action="{% url 'delete_task'%}" method='POST' enctype="multipart/form-data">
+                {% csrf_token %}
                 <div class="input-group-prepend">
-                    <div class="check input-group-text">
-                        <input class="" type="checkbox" aria-label="Checkbox for following text input">
+                    <div class="input-group-text">
+                        <input onChange="document.getElementById('{{task.id}}').submit()" type="checkbox" {% if task.is_done %}checked{% endif %} aria-label="Checkbox for following text input">
                     </div>
                 </div>
                 <h7 type="text" class="form-control">{{task}}</h7>
-                <form class="input-group-append" action="{% url 'delete_task'%}" method='POST' enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="hidden" id="id" value="{{task.id}}" name = "id">
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
+                <input type="hidden" value="{{task.id}}" name = "id">
+                <button type="submit" class="input-group-append btn btn-danger">Delete</button>
+            </form>
                 
-            </div>
+            
         {% endfor %}
     <!-- Button trigger modal -->
     <button type="button" class="mt-4 btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">

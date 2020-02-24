@@ -15,6 +15,7 @@
 
 <form method='POST' action='{% url 'login' %}'>
 {% csrf_token %}
+  
   <div class="form-group">
     <label for="InputUsername">Username</label>
     <input type="text" class="form-control form-control-sm" id="InputUsername" aria-describedby="emailHelp" placeholder="Enter username" name = "username">
@@ -23,7 +24,10 @@
     <label for="InputPassword1">Password</label>
     <input type="password" class="form-control form-control-sm" id="InputPassword1" placeholder="Password" name='InputPassword1'>
   </div>
-  <button type="submit" class="btn btn-warning">Submit</button>
+  
+  <button type="submit" class="mb-3 btn btn-warning">Submit</button>
+  <br/>
+  <a href="{% url 'signup' %}" role="button">Signup if you don't have account yet</a>
 </form>
 </div>
 

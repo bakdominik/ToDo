@@ -34,6 +34,15 @@ def delete_task(request):
         task.delete()
         return redirect('tasks')
 
-
+@login_required()
+def mark_as_done(request):
+    if request.method == 'POST':
+        task = Task.objects.get(pk=request.POST['id_checked'])
+        if task.is_done:
+            task.is_done = False
+        else:
+            task.is_done = True
+        task.save()
+    return redirect('tasks')
 
         
