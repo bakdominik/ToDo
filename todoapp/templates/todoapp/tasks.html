@@ -1,11 +1,24 @@
 
 {% extends 'base.html' %}
 {% block content %}
+{% if error %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  {{error}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>          
+{% endif %}
 
-
-<div class="card shadow-lg p-3 mb-5 bg-white rounded mt-5 mx-auto" style="padding: 5px;">
+<div class="card shadow-lg p-3 mb-5 bg-white rounded mx-auto" style="padding: 5px; margin-top:90px;">
     
-    <h2 class="mb-4" style="color: #df7861">Today</h2>  
+    <h2 class="mb-1" style="color: #df7861">{{ show }}</h2>
+    {% if all %}
+        <a name='all' class="mb-3" href=' {% url 'tasks' %} '><small>Show only tasks for today</small></a>
+    {% else %}
+        <a class="mb-3" href=' {% url 'show_all_tasks' %} '><small>Show all tasks</small></a>
+    {% endif %} 
+
         {% for task in tasks %}
             <form id='{{ task.id }}' method='POST' action="{% url 'mark_as_done'%}" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -14,17 +27,28 @@
                 </div>
             </form>
             
-            <form class="input-group" action="{% url 'delete_task'%}" method='POST' enctype="multipart/form-data">
+            <form action="{% url 'delete_task'%}" method='POST' enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <input onChange="document.getElementById('{{task.id}}').submit()" type="checkbox" {% if task.is_done %}checked{% endif %} aria-label="Checkbox for following text input">
+                <div class="allign row">
+                    <div class="col-1">
+                        <input class="mx-3 mt-1" onChange="document.getElementById('{{task.id}}').submit()" type="checkbox" {% if task.is_done %}checked{% endif %}>
                     </div>
+                    <div class="col-8 col-md-9 col-lg-10">
+                        <p>{{task}}</p>
+                        {% if all %}
+                        <input type="hidden" value="all" name = "all">
+                        <p><small>{{task.date}}</small></p>
+                        {% endif %}
+                    </div>
+                    <div class="col-1 ">
+                        <input type="hidden" value="{{task.id}}" name = "id">
+                        <button type="submit" class="m-auto input-group-append btn btn-danger "><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    
                 </div>
-                <h7 type="text" class="form-control">{{task}}</h7>
-                <input type="hidden" value="{{task.id}}" name = "id">
-                <button type="submit" class="input-group-append btn btn-danger">Delete</button>
+                
             </form>
+            <hr>
                 
             
         {% endfor %}
@@ -45,11 +69,8 @@
             </div>
             <!--Add task-->
             <div class="modal-body">
-                {% if error %}
-                {{error}}
-                {% endif %}
 
-                <form method='POST' action='{% url 'tasks' %}' enctype="multipart/form-data">
+                <form method='POST' action="{% url 'tasks' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="title">Title</label>
@@ -57,7 +78,8 @@
                 </div>
                 <div class="form-group">
                     <label for="date">Date</label>
-                    <input type="date" class="form-control form-control-sm" id="date" name='date'>
+                    <input type="hidden" value="all" name = "all">
+                    <input value="{{date}}" type="date" class="form-control form-control-sm" name='date'>
                 </div>
                 
             </div>
