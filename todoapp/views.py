@@ -20,10 +20,14 @@ def tasks(request):
             task.date = request.POST['date']
             task.user = request.user
             task.save()
-            if request.POST['all']:
+            if request.POST.get('all', False):
                 return redirect('show_all_tasks')
-            return redirect('tasks')
+            else:
+                return redirect('tasks')
         else:
+            if request.POST['all']:
+                tasks = Task.objects.filter(user=request.user)
+                return render(request, 'todoapp/tasks.html', {'all':True,'show':'All tasks','error':'All fields are required','tasks':tasks,'date':date.today().isoformat()})
             tasks = Task.objects.filter(user=request.user,date=date.today())
             return render(request, 'todoapp/tasks.html', {'show':'Today','error':'All fields are required','tasks':tasks,'date':date.today().isoformat()})
     else:
@@ -35,8 +39,8 @@ def delete_task(request):
     if request.method == 'POST':
         task = Task.objects.get(pk=request.POST['id'])
         task.delete()
-        if request.POST['all']:
-            return redirect('show_all_tasks')
+        if request.POST.get('all', False):
+            return redirect(show_all_tasks)
         return redirect('tasks')
 
 @login_required()
@@ -52,17 +56,5 @@ def mark_as_done(request):
 
 @login_required()
 def show_all_tasks(request):
-    if request.method == 'POST':
-        if request.POST['title'] and request.POST['date']:
-            task = Task()
-            task.title = request.POST['title']
-            task.date = request.POST['date']
-            task.user = request.user
-            task.save()
-            return redirect('tasks')
-        else:
-            tasks = Task.objects.filter(user=request.user,date=date.today())
-            return render(request, 'todoapp/tasks.html', {'show':'All tasks','error':'All fields are required','tasks':tasks,'date':date.today().isoformat()})
-    else:
-        tasks = Task.objects.filter(user=request.user)
-        return render(request, 'todoapp/tasks.html', {'show':'All tasks','all':True,'tasks':tasks,'date':date.today().isoformat()})
+    tasks = Task.objects.filter(user=request.user)
+    return render(request, 'todoapp/tasks.html', {'show':'All tasks','all':True,'tasks':tasks,'date':date.today().isoformat()})
