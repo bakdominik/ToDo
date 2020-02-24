@@ -34,7 +34,7 @@
                         <input class="mx-3 mt-1" onChange="document.getElementById('{{task.id}}').submit()" type="checkbox" {% if task.is_done %}checked{% endif %}>
                     </div>
                     <div class="col-8 col-md-9 col-lg-10">
-                        <p>{{task}}</p>
+                        <p class="pl-1">{{task}}</p>
                         {% if all %}
                         <input type="hidden" value="all" name = "all">
                         <p><small>{{task.date}}</small></p>
